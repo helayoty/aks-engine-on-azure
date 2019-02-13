@@ -36,7 +36,7 @@ source <(aks-engine completion)
 
 `aks-engine` reads a cluster definition file which describes the size, shape, and configuration of your cluster. `aks-engine` takes this file of one master and two Linux agents, reads it, and builds an ARM template file, which is a declarative syntax that the provisioning engines in Azure use to deploy infrastructure. If you would like to change the configuration, edit `examples/kubernetes.json` before continuing *You have to create an examples folder then a kubernetes.json file*. Here is an example of *kubernetes.json*:
 
-`
+```console
 {
   "apiVersion": "vlabs",
   "properties": {
@@ -71,7 +71,7 @@ source <(aks-engine completion)
     }
   }
 }
-`
+```
 
 **NOTE:** The Azure Resource Manager enables you to work with the resources in your solution as a group. You can deploy, update, or delete all the resources for your solution in a single, coordinated operation. You use a template for deployment and that template can work for different environments such as testing, staging, and production. Resource Manager provides security, auditing, and tagging features to help you manage your resources after deployment. The Azure command line tooling can take these ARM template files and build out a Kubernetes cluster based on the elements in the original cluster definition file.
 
@@ -183,6 +183,21 @@ To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
 
 Administrative note: By default, the directory where aks-engine stores cluster configuration (`_output/argo-trial` above) won't be overwritten as a result of subsequent attempts to deploy a cluster using the same `--dns-prefix`) To re-use the same resource group name repeatedly, include the `--force-overwrite` command line option with your `aks-engine deploy` command. On a related note, include an `--auto-suffix` option to append a randomly generated suffix to the dns-prefix to form the resource group name, for example if your workflow requires a common prefix across multiple cluster deployments. Using the `--auto-suffix` pattern appends a compressed timestamp to ensure a unique cluster name (and thus ensure that each deployment's configuration artifacts will be stored locally under a discrete `_output/<resource-group-name>/` directory).
 
+### Validate with portal
+
+Now you can go to *Azure portal* and you can see your Kubernetes cluster
+
+![](./images/validate-portal.png)
+
+Or you can use *Azure CLI* to view your cluster
+
+```console
+$ az vm list -g Argo-rg -o table
+
+Name                   ResourceGroup    Location    Zones
+---------------------  ---------------  ----------  -------
+k8s-master-71801497-0  Argo-rg          centralus
+```
 
 <a href="#the-long-way"></a>
 
